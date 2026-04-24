@@ -1,0 +1,69 @@
+ <!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>猜數字遊戲</title>
+</head>
+<body>
+
+<div>
+  <h1>猜數字遊戲</h1>
+  <label for="guessField">猜一個數字 (1 到 100):</label>
+  <input type="number" class="guessField" id="guessField" min="1" max="100">
+  <button class="guessSubmit">提交</button>
+  <div class="result"></div>
+  <div class="count"></div>
+</div>
+
+<p class="guesses"></p>
+<button class="restartBtn">重新開始</button>
+
+<script>
+let randomNumber = Math.floor(Math.random() * 100) + 1;
+let guessCount = 0;
+
+const guessField = document.querySelector('.guessField');
+const guessSubmit = document.querySelector('.guessSubmit');
+const result = document.querySelector('.result');
+const count = document.querySelector('.count');
+const guesses = document.querySelector('.guesses');
+const restartBtn = document.querySelector('.restartBtn');
+
+guessSubmit.addEventListener('click', function () {
+  const userGuess = Number(guessField.value);
+  guessCount++;
+
+  guesses.textContent += userGuess + " ";
+
+  if (userGuess === randomNumber) {
+    result.textContent = "🎉 恭喜你猜對了！";
+    count.textContent = "你總共猜了 " + guessCount + " 次";
+    endGame();
+  } else if (userGuess < randomNumber) {
+    result.textContent = "📉 太小了，再試一次！";
+  } else {
+    result.textContent = "📈 太大了，再試一次！";
+  }
+
+  guessField.value = '';
+  guessField.focus();
+});
+
+function endGame() {
+  guessField.disabled = true;
+  guessSubmit.disabled = true;
+}
+
+restartBtn.addEventListener('click', function () {
+  randomNumber = Math.floor(Math.random() * 100) + 1;
+  guessCount = 0;
+  result.textContent = '';
+  count.textContent = '';
+  guesses.textContent = '';
+  guessField.disabled = false;
+  guessSubmit.disabled = false;
+});
+</script>
+
+</body>
+</html>
